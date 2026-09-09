@@ -80,6 +80,13 @@
     --bone: #EFE9DC;
     --bone-deep: #E3DBC8;
     --gold: #E0A526;
+
+    /* ---- CTA COLOR ----
+       Deep Sage. Single point of control for every primary button:
+       nav CTA, hero CTAs, pricing tier CTAs, mobile menu CTA, form submit. */
+    --cta: #3D5A49;
+    --cta-dark: #2F4137;
+
     --display: 'Fraunces', Georgia, serif;
     --body: 'Inter Tight', system-ui, sans-serif;
   }
@@ -220,7 +227,7 @@
   .nav-dropdown-menu a:hover { background: var(--bone-deep); color: var(--brick); }
   .btn {
     display: inline-block;
-    background: var(--brick);
+    background: var(--cta);
     color: var(--bone);
     padding: 12px 24px;
     border-radius: 8px;
@@ -232,7 +239,7 @@
     border: none; cursor: pointer;
     text-decoration: none;
   }
-  .btn:hover { background: var(--brick-dark); text-decoration: none; transform: translateY(-1px); }
+  .btn:hover { background: var(--cta-dark); text-decoration: none; transform: translateY(-1px); }
   .btn-large { padding: 18px 36px; font-size: 15px; border-radius: 10px; }
   .btn-ghost {
     background: transparent;
@@ -292,7 +299,7 @@
   .mobile-menu a:hover { color: var(--brick); text-decoration: none; }
   .mobile-menu .mobile-menu-cta {
     margin-top: 14px;
-    background: var(--brick);
+    background: var(--cta);
     color: var(--bone);
     text-align: center;
     text-transform: uppercase;
@@ -304,7 +311,7 @@
     border-bottom: none;
   }
   .mobile-menu .mobile-menu-cta:hover {
-    background: var(--brick-dark);
+    background: var(--cta-dark);
     color: var(--bone);
   }
   .mobile-menu.open { display: flex; }
@@ -2755,5 +2762,6 @@
   update(); resetAuto();
 })();
 </script>
+
 </body>
 </html>
