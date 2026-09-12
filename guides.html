@@ -60,6 +60,13 @@ nav{position:sticky;top:0;z-index:50;background:rgba(239,233,220,.92);backdrop-f
 .mobile-menu a{color:var(--ink);padding:11px 0;font-size:15px;border-bottom:1px solid var(--line)}
 .mobile-menu a:last-child{border-bottom:none}
 .mobile-menu-cta{color:var(--brick)!important;font-weight:600}
+/* --- header click-to-call (matches homepage) --- */
+.nav-call{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;margin-right:4px;white-space:nowrap}
+.nav-call svg{width:16px;height:16px;opacity:.7}
+.nav-call:hover{color:var(--brick)}
+.nav-call:hover svg{opacity:1}
+@media(max-width:1120px){.nav-call span{display:none}}
+.mobile-menu-call{display:block;text-align:center;font-weight:600;padding:12px 0;color:var(--ink);text-decoration:none}
 @media(max-width:900px){.nav-links{display:none}.nav-toggle{display:flex}}
 
 /* hub header */
@@ -132,26 +139,20 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
   <div class="nav-inner">
     <a href="/" class="logo" aria-label="Mold Dog Midwest - home"><img src="/MDM_primaryNoSlogan.svg" class="logo-img" alt="Mold Dog Midwest"></a>
     <div class="nav-links">
-      <a href="/#story">Our Story</a>
-      <a href="/team">Meet the Team</a>
-      <div class="nav-dropdown">
-        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true">Services <span>&#9662;</span></button>
-        <div class="nav-dropdown-menu"><a href="/#services">How We Work</a><a href="/services">Services</a></div>
-      </div>
+      <a href="/#services">How We Work</a>
       <a href="/#pricing">Pricing</a>
-      <a href="/faq">FAQ</a>
+      <a href="/team">Meet the Team</a>
       <a href="/guides" aria-current="page">Guides</a>
-      <div class="nav-dropdown">
-        <button class="nav-dropdown-toggle" type="button" aria-haspopup="true">More <span>&#9662;</span></button>
-        <div class="nav-dropdown-menu nav-dropdown-menu--right"><a href="/Termsconditions">Terms &amp; Conditions</a><a href="/Privacy">Privacy Policy</a><a href="/Disclaimer">Disclaimer</a></div>
-      </div>
-      <a href="/#request" data-open-form class="btn">Book A Free 15-Min Consult</a>
+      <a href="/faq">FAQ</a>
+      <a href="tel:+16124601402" class="nav-call" aria-label="Call Mold Dog Midwest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg><span>(612) 460-1402</span></a>
+      <a href="/#request" class="btn">Book Your Inspection</a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/#story">Our Story</a><a href="/team">Meet the Team</a><a href="/#services">How We Work</a><a href="/services">Services</a><a href="/#pricing">Pricing</a><a href="/faq">FAQ</a><a href="/guides">Guides</a><a href="/Termsconditions">Terms &amp; Conditions</a><a href="/Privacy">Privacy Policy</a><a href="/Disclaimer">Disclaimer</a>
-    <a href="/#request" data-open-form class="mobile-menu-cta">Book A Free 15-Min Consult</a>
+    <a href="/#services">How We Work</a><a href="/#pricing">Pricing</a><a href="/team">Meet the Team</a><a href="/guides" aria-current="page">Guides</a><a href="/faq">FAQ</a>
+    <a href="tel:+16124601402" class="mobile-menu-call">Call (612) 460-1402</a>
+    <a href="/#request" class="mobile-menu-cta">Book Your Inspection</a>
   </div>
 </nav>
 
