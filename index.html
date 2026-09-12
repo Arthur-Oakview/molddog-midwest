@@ -2587,6 +2587,23 @@
   </div>
 </section>
 
+<!-- REPORT LIGHTBOX (opened by tapping a .report-shot thumbnail above) -->
+<div class="report-lightbox" id="reportLightbox" role="dialog" aria-modal="true" aria-label="Report page preview">
+  <div class="report-lightbox-inner">
+    <img id="reportLightboxImg" src="" alt="">
+    <p class="report-lightbox-caption" id="reportLightboxCaption"></p>
+  </div>
+  <button type="button" class="report-lightbox-close" id="reportLightboxClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button type="button" class="report-lightbox-nav report-lightbox-prev" id="reportLightboxPrev" aria-label="Previous page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="report-lightbox-nav report-lightbox-next" id="reportLightboxNext" aria-label="Next page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
 <!-- TESTIMONIALS CAROUSEL -->
 <section class="reviews">
   <div class="container">
@@ -3019,6 +3036,64 @@
   cel.addEventListener('mouseleave',resetAuto);
   window.addEventListener('resize',function(){buildDots();update();});
   buildDots();update();resetAuto();
+})();
+</script>
+<script>
+/* ---- Report page lightbox: wires up the .report-shot thumbnails
+   in the "look inside a real report" section to the fixed-position
+   .report-lightbox overlay. ---- */
+(function () {
+  var shots = Array.from(document.querySelectorAll('.report-shot'));
+  var lightbox = document.getElementById('reportLightbox');
+  if (!shots.length || !lightbox) return;
+
+  var lbImg = document.getElementById('reportLightboxImg');
+  var lbCaption = document.getElementById('reportLightboxCaption');
+  var closeBtn = document.getElementById('reportLightboxClose');
+  var prevBtn = document.getElementById('reportLightboxPrev');
+  var nextBtn = document.getElementById('reportLightboxNext');
+  var current = 0;
+
+  function show(i) {
+    current = (i + shots.length) % shots.length;
+    var shot = shots[current];
+    var img = shot.querySelector('img');
+    var caption = shot.querySelector('figcaption');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || '';
+    lbCaption.textContent = caption ? caption.textContent : '';
+  }
+
+  function open(i) {
+    show(i);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  shots.forEach(function (shot, i) {
+    shot.addEventListener('click', function () { open(i); });
+  });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', function () { show(current - 1); });
+  nextBtn.addEventListener('click', function () { show(current + 1); });
+
+  /* Click the dark backdrop (not the image/inner) to close */
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) close();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
 })();
 </script>
 <script>
