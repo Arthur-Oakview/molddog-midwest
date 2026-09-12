@@ -324,87 +324,80 @@
   }
 
   /* ---------- HERO ---------- */
+  /* ================= HERO: photo background > sage backdrop > content ================= */
   .hero {
-    background-color: var(--sage);
-    color: var(--bone);
     position: relative;
     overflow: hidden;
-  }
-  .hero-inner {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 70px 28px 64px;
-  }
-  /* Row 1: headline spans the full width above everything */
-  .hero-top {
-    margin-bottom: 40px;
-  }
-  /* Row 2: two columns – text left, photo right */
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
+    color: var(--bone);
+    background-color: var(--sage); /* fallback while the photo loads */
+    min-height: 560px;
+    display: flex;
     align-items: center;
-    gap: 48px;
   }
-  .hero-content {
+  /* Layer 1 – background photo, full bleed */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 38%;
+    z-index: 0;
+  }
+  /* Layer 2 – content, condensed and floating directly over the photo.
+     No color scrim: legibility comes from text weight, size, and shadow –
+     same approach as a bold white headline dropped straight onto a photo. */
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 28px 40px;
+    width: 100%;
+  }
+  .hero-top {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
   }
-  .hero-media {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hero-media img {
-    width: auto;
-    max-width: 100%;
-    max-height: 380px;
-    object-fit: contain;
-    border-radius: 6px;
-    display: block;
-  }
-  /* Row 3: stats span full width, evenly centered across the bottom */
+  .hero p.lead { margin-bottom: 28px; }
+  .hero-cta { margin-bottom: 0; }
+  /* Stats: condensed strip under the CTAs, no full-width divider needed
+     since the sage backdrop already separates it from the photo above */
   .hero-stats {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 24px;
-    margin-top: 52px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(239, 233, 220, 0.25);
-    text-align: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    text-align: left;
   }
   .hero-stats .stat {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     min-width: 0;
-    padding: 0 8px;
   }
   @media (max-width: 960px) {
-    .hero-inner { padding: 48px 24px 48px; }
-    .hero-top { margin-bottom: 28px; text-align: center; }
+    .hero { min-height: 0; }
+    .hero-bg { background-position: 80% 30%; }
+    .hero-inner { padding: 48px 24px 36px; }
+    .hero-top { align-items: center; text-align: center; }
     .hero-top h1 { max-width: 22ch; margin-left: auto; margin-right: auto; }
-    .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-    .hero-media { order: -1; }
-    .hero-media img { max-height: 260px; }
-    .hero-content { align-items: center; text-align: center; }
     .hero p.lead { margin-left: auto; margin-right: auto; }
+    .hero-cta { justify-content: center; }
+    .hero-stats {
+      justify-content: space-between;
+      text-align: center;
+    }
+    .hero-stats .stat { flex: 1 1 0; }
   }
   @media (max-width: 560px) {
-    /* Stats stay a tidy 3-across ribbon; text scales via clamp below */
     .hero-stats {
       gap: 12px;
-      margin-top: 36px;
-      padding-top: 26px;
+      margin-top: 32px;
+      padding-top: 22px;
     }
-    .hero-stats .stat {
-      flex: 1 1 0;
-      min-width: 0;
-      padding: 0 2px;
-    }
+    .hero-stats .stat { padding: 0 2px; }
   }
   .eyebrow {
     display: inline-block;
@@ -418,6 +411,17 @@
     border: 1px solid rgba(239, 233, 220, 0.4);
     border-radius: 100px;
     margin-bottom: 24px;
+  }
+  /* Hero-only: the eyebrow sits directly on an unfiltered photo (no scrim
+     behind it), so it gets its own dark glass chip for guaranteed contrast.
+     Scoped to .hero so it doesn’t leak onto eyebrows elsewhere on the page. */
+  .hero .eyebrow {
+    opacity: 1;
+    padding: 7px 16px;
+    background: rgba(20, 24, 21, 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-color: rgba(239, 233, 220, 0.3);
   }
   .eyebrow .dot {
     display: inline-block;
@@ -434,10 +438,14 @@
   }
   .hero h1 {
     font-size: clamp(40px, 5.6vw, 76px);
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 0;
     letter-spacing: -0.025em;
-    text-shadow: 0 2px 24px rgba(42, 42, 40, 0.25);
+    color: #fff;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.65),
+      0 6px 18px rgba(0, 0, 0, 0.45),
+      0 16px 40px rgba(0, 0, 0, 0.3);
     max-width: 18ch;
   }
   .hero-top { /* allow headline to breathe full width */ }
@@ -449,8 +457,12 @@
   }
   .hero p.lead {
     font-size: 18px;
+    font-weight: 500;
     line-height: 1.55;
-    color: rgba(239, 233, 220, 0.92);
+    color: #fff;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.6),
+      0 4px 14px rgba(0, 0, 0, 0.4);
     max-width: 540px;
     margin-bottom: 32px;
   }
@@ -458,15 +470,17 @@
   .stat .num {
     font-family: var(--display);
     font-size: clamp(15px, 2.3vw, 34px);
-    font-weight: 500;
-    color: var(--bone);
+    font-weight: 600;
+    color: #fff;
     line-height: 1.1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6), 0 4px 14px rgba(0,0,0,0.4);
   }
   .stat .lbl {
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    opacity: 0.8;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6), 0 3px 10px rgba(0,0,0,0.4);
     margin-top: 6px;
   }
 
@@ -1049,9 +1063,10 @@
   }
   .price-tiers {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.15fr 1fr;
     gap: 20px;
   }
+  @media (max-width: 980px) { .price-tiers { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 760px) { .price-tiers { grid-template-columns: 1fr; } }
   .tier {
     background: var(--bone);
@@ -1059,8 +1074,73 @@
     border-radius: 4px;
     padding: 34px 32px;
   }
-  .tier.featured { border-color: var(--brick); border-width: 1.5px; }
+  .tier.featured { border-color: var(--brick); border-width: 1.5px; grid-column: 1 / -1; }
+
+  /* ---- New pricing-card system (Complete Inspection / Scaled Up / Add-Ons) ---- */
+  .tier.tier-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 26px;
+    box-shadow: 0 4px 18px rgba(42,42,40,0.06);
+    display: flex;
+    flex-direction: column;
+  }
+  /* One shared type scale so title / sub-header / price / list / footnote
+     match across all three pricing cards. */
+  .tier-card .tier-name { font-size: 22px; margin-bottom: 6px; }
+  .tier-range { font-size: 12.5px; color: var(--walnut); margin-bottom: 4px; }
+  .tier-card .tier-range { padding-top: 10px; }
+
+  .promo-badge {
+    display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: #fff; background: var(--brick);
+    padding: 3px 9px; border-radius: 4px; margin-bottom: 10px;
+  }
+  .price-row { display: flex; align-items: baseline; justify-content: flex-end; gap: 10px; margin: 0 0 2px; flex-wrap: wrap; }
+  .price-now { font-family: var(--display); font-size: 24px; color: var(--ink); }
+  .price-now.custom { font-size: 24px; }
+  .price-was {
+    font-family: var(--display); font-size: 16px; color: var(--walnut);
+    text-decoration: line-through; text-decoration-color: rgba(139,111,78,0.6);
+  }
+  .price-note-sm { font-size: 12.5px; color: var(--walnut); margin-bottom: 4px; text-align: right; }
+
+  .tier-card .tier-list {
+    list-style: none; margin: 18px 0 0; padding: 0; flex: 1;
+  }
+  .tier-card .tier-list li { font-size: 14px; line-height: 1.55; padding: 6px 0 6px 26px; position: relative; }
+  .tier-card .tier-list li::before {
+    content: "\2713"; position: absolute; left: 0; top: 6px;
+    color: var(--sage-dark); font-weight: 700; font-size: 13px;
+  }
+
+  /* Shared row pattern: label on the left, price flush-right – same
+     alignment used on every card so prices land in one visual column
+     no matter how many rows a card has. */
+  .price-item-row {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 4px 12px; padding: 10px 0;
+  }
+  .price-item-row + .price-item-row { border-top: 1px solid rgba(139,111,78,0.18); }
+  .price-item-row .pir-label { font-size: 13.5px; color: var(--walnut); white-space: nowrap; }
+  .price-item-row .pir-price { text-align: right; margin-left: auto; }
+  .same-services-note, .addon-note {
+    font-size: 12.5px; color: var(--walnut); font-style: italic;
+    margin: 14px 0 0; padding-top: 14px; border-top: 1px dashed rgba(139,111,78,0.3); line-height: 1.6;
+  }
+  .addon-note strong { color: var(--ink); font-style: normal; }
+
+  .pricing-cta { margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .pricing-cta-phone {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: var(--body); font-size: 16px; font-weight: 600;
+    color: var(--ink); text-decoration: none;
+  }
+  .pricing-cta-phone svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--walnut); }
+  .pricing-cta-phone:hover { color: var(--brick); }
+  .pricing-cta-phone:hover svg { color: var(--brick); }
   .tier .tier-name { font-family: var(--display); font-size: 25px; margin-bottom: 4px; }
+  .tier.tier-card .tier-name { font-size: 22px; }
   .tier .tier-tag { font-size: 14px; color: var(--brick); font-style: italic; margin-bottom: 22px; }
   .price-line {
     display: flex;
@@ -1082,6 +1162,203 @@
   }
   .tier .note { font-size: 13px; color: var(--walnut); margin-top: 18px; line-height: 1.6; }
   .tier .consult-line { font-size: 16px; color: var(--ink); line-height: 1.6; margin-bottom: 18px; }
+  .rc-city { font-weight: 400; color: var(--walnut); font-size: 13px; }
+
+
+  /* ================= CTA LAYER ================= */
+
+  /* --- header click-to-call --- */
+  .nav-call {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 15px; font-weight: 600; color: var(--ink);
+    text-decoration: none; margin-right: 4px; white-space: nowrap;
+  }
+  .nav-call svg { width: 16px; height: 16px; opacity: .7; }
+  .nav-call:hover { color: var(--brick); }
+  .nav-call:hover svg { opacity: 1; }
+  @media (max-width: 1120px) { .nav-call span { display: none; } }
+  .mobile-menu-call {
+    display: block; text-align: center; font-weight: 600;
+    padding: 12px 0; color: var(--ink); text-decoration: none;
+  }
+
+  /* --- two-line buttons (hero) --- */
+  .btn-sub {
+    display: block; font-size: 12px; font-weight: 500;
+    letter-spacing: .02em; opacity: .78; margin-top: 3px; text-transform: none;
+  }
+  .hero-phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-family: var(--body);
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6), 0 4px 14px rgba(0,0,0,0.4);
+  }
+  .hero-phone-link svg { width: 17px; height: 17px; flex-shrink: 0; }
+  .hero-phone-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 960px) { .hero-phone-link { justify-content: center; width: 100%; } }
+  .hero-call {
+    margin-top: 16px; font-size: 15px; color: var(--walnut);
+  }
+  .hero-call a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(42,42,40,.3); }
+  .hero-call a:hover { color: var(--brick); border-color: var(--brick); }
+
+  /* --- mid-page CTA band --- */
+  /* --- inline CTA (after inclusions / report) --- */
+  .report-cta { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; }
+  .report-cta-phone {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 14px;
+    font-family: var(--body); font-size: 16px; font-weight: 600;
+    color: var(--ink); text-decoration: none;
+  }
+  .report-cta-phone svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--walnut); }
+  .report-cta-phone:hover { color: var(--brick); }
+  .report-cta-phone:hover svg { color: var(--brick); }
+  @media (max-width: 820px) {
+    .report-cta { align-items: stretch; text-align: center; }
+    .report-cta .btn { width: 100%; }
+    .report-cta-phone { justify-content: center; }
+  }
+
+  /* --- request section --- */
+  .not-ready {
+    margin-top: 30px; padding: 20px 22px;
+    background: var(--bone-deep); border-radius: 8px;
+    border-left: 3px solid var(--walnut);
+  }
+  .not-ready p { margin: 0 0 12px; font-size: 15px; line-height: 1.6; color: var(--ink); }
+  .not-ready p strong { color: var(--ink); }
+  .not-ready-phone {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 16px; font-weight: 600; color: var(--brick);
+    text-decoration: none;
+  }
+  .not-ready-phone svg { width: 17px; height: 17px; }
+  .not-ready-phone:hover { color: var(--brick-dark); }
+
+  .lead-call { margin-top: 14px; font-size: 16px; color: var(--walnut); }
+  .lead-call a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(42,42,40,.3); }
+  .req-cta .btn + .btn { margin-top: 12px; }
+  .form-foot a { color: inherit; font-weight: 600; }
+
+  /* --- sticky mobile action bar --- */
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+    display: none; gap: 10px; padding: 10px 12px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(239,233,220,.97);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(139,111,78,.3);
+    box-shadow: 0 -4px 18px rgba(42,42,40,.10);
+    transform: translateY(110%);
+    transition: transform .25s ease;
+  }
+  .sticky-cta.show { transform: translateY(0); }
+  .sticky-cta a {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--body); font-size: 15px; font-weight: 600;
+    padding: 14px 10px; border-radius: 6px; text-decoration: none;
+    min-height: 48px;
+  }
+  .sticky-cta .sc-call {
+    flex: 0 0 34%;
+    background: transparent; color: var(--ink);
+    border: 1.5px solid rgba(42,42,40,.3);
+  }
+  .sticky-cta .sc-call svg { width: 16px; height: 16px; }
+  .sticky-cta .sc-book { background: var(--cta); color: #fff; }
+  @media (max-width: 860px) {
+    .sticky-cta { display: flex; }
+    body { padding-bottom: 0; }
+  }
+
+  /* ---- SAMPLE REPORT STRIP ---- */
+  .report-peek { margin-top: 60px; padding-top: 52px; border-top: 1px solid rgba(139,111,78,0.25); }
+  .report-peek .includes-eyebrow { }
+  .report-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 26px; }
+  @media (max-width: 760px) { .report-shots { grid-template-columns: 1fr; } }
+  .report-shot {
+    display: block; width: 100%; text-align: left;
+    background: #fff; border: 1px solid rgba(139,111,78,0.3); border-radius: 6px;
+    overflow: hidden; box-shadow: 0 6px 22px rgba(42,42,40,0.10);
+    font: inherit; cursor: pointer; padding: 0;
+    position: relative;
+    transition: box-shadow .15s ease, transform .15s ease;
+  }
+  .report-shot:hover, .report-shot:focus-visible {
+    box-shadow: 0 10px 28px rgba(42,42,40,0.18);
+    transform: translateY(-2px);
+  }
+  .report-shot img {
+    width: 100%; height: 260px; object-fit: contain; object-position: center;
+    display: block; background: var(--bone-deep); padding: 10px;
+    box-sizing: border-box;
+  }
+  @media (max-width: 760px) { .report-shot img { height: 340px; } }
+  .report-shot-zoom {
+    position: absolute; top: 10px; right: 10px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(20,24,21,0.6);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .report-shot-zoom svg { width: 15px; height: 15px; }
+  .report-shot figcaption { font-size: 13px; color: var(--walnut); padding: 12px 14px; line-height: 1.5; }
+  .report-tap-hint { font-size: 12.5px; color: var(--walnut); margin-top: 12px; font-style: italic; }
+  .report-note { font-size: 13px; color: var(--walnut); margin-top: 16px; font-style: italic; }
+
+  /* ---- LIGHTBOX ---- */
+  .report-lightbox {
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(20,24,21,0.92);
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px 20px;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .report-lightbox.open { opacity: 1; visibility: visible; pointer-events: auto; }
+  .report-lightbox-inner { max-width: 900px; width: 100%; text-align: center; }
+  .report-lightbox img {
+    max-width: 100%; max-height: 82vh; width: auto; display: block; margin: 0 auto;
+    border-radius: 4px; box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    background: #fff;
+  }
+  .report-lightbox-caption {
+    color: rgba(239,233,220,0.9); font-size: 14px; margin-top: 16px;
+  }
+  .report-lightbox-close {
+    position: absolute; top: 18px; right: 22px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .report-lightbox-close:hover { background: rgba(255,255,255,0.18); }
+  .report-lightbox-close svg { width: 18px; height: 18px; }
+  .report-lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .report-lightbox-nav:hover { background: rgba(255,255,255,0.18); }
+  .report-lightbox-nav svg { width: 20px; height: 20px; }
+  .report-lightbox-prev { left: 14px; }
+  .report-lightbox-next { right: 14px; }
+  @media (max-width: 640px) {
+    .report-lightbox-nav { width: 38px; height: 38px; }
+    .report-lightbox-prev { left: 6px; } .report-lightbox-next { right: 6px; }
+    .report-lightbox-close { top: 10px; right: 10px; }
+  }
+
   .fine-print {
     margin-top: 32px;
     font-size: 13.5px;
@@ -1791,7 +2068,7 @@
 <div class="promo-banner" id="promoBanner" role="region" aria-label="September promotion" hidden>
   <div class="promo-inner">
     <span><strong>September Special:</strong> Book your inspection this month for <span class="promo-price">$995</span> &mdash; homes up to 3,500 sq ft.</span>
-    <a href="#request" data-open-form class="promo-cta">Book Now &rarr;</a>
+    <a href="#request" data-open-form="book" data-cta-source="promo-banner" class="promo-cta">Book Now &rarr;</a>
   </div>
   <button class="promo-close" type="button" id="promoClose" aria-label="Dismiss announcement">&times;</button>
 </div>
@@ -1805,27 +2082,16 @@
       <img src="MDM_primaryNoSlogan.svg" class="logo-img" alt="Mold Dog Midwest">
     </a>
     <div class="nav-links">
-      <a href="#story">Our Story</a>
-      <a href="/team">Meet the Team</a>
-      <div class="nav-dropdown">
-        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Services <span class="dd-chev">▾</span></button>
-        <div class="nav-dropdown-menu nav-dropdown-menu--left">
-          <a href="#services">How We Work</a>
-          <a href="/services">Services</a>
-        </div>
-      </div>
+      <a href="#services">How We Work</a>
       <a href="#pricing">Pricing</a>
-      <a href="/faq">FAQ</a>
+      <a href="/team">Meet the Team</a>
       <a href="/guides">Guides</a>
-      <div class="nav-dropdown">
-        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">More <span class="dd-chev">▾</span></button>
-        <div class="nav-dropdown-menu">
-          <a href="/Termsconditions">Terms &amp; Conditions</a>
-          <a href="/Privacy">Privacy Policy</a>
-          <a href="/Disclaimer">Disclaimer</a>
-        </div>
-      </div>
-      <a href="#request" data-open-form class="btn">Book A Free 15-Min Consult</a>
+      <a href="/faq">FAQ</a>
+      <a href="tel:+16124601402" class="nav-call" aria-label="Call Mold Dog Midwest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        <span>(612) 460-1402</span>
+      </a>
+      <a href="#request" data-open-form="book" data-cta-source="nav" class="btn">Book Your Inspection</a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="nav-toggle-bar"></span>
@@ -1834,17 +2100,13 @@
     </button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#story">Our Story</a>
-    <a href="/team">Meet the Team</a>
     <a href="#services">How We Work</a>
-    <a href="/services">Services</a>
     <a href="#pricing">Pricing</a>
+    <a href="/team">Meet the Team</a>
+    <a href="/guides">Guides</a>
     <a href="/faq">FAQ</a>
-      <a href="/guides">Guides</a>
-    <a href="/Termsconditions">Terms &amp; Conditions</a>
-    <a href="/Privacy">Privacy Policy</a>
-    <a href="/Disclaimer">Disclaimer</a>
-    <a href="#request" data-open-form class="mobile-menu-cta">Book A Free 15-Min Consult</a>
+    <a href="tel:+16124601402" class="mobile-menu-call">Call (612) 460-1402</a>
+    <a href="#request" data-open-form="book" data-cta-source="mobile-menu" class="mobile-menu-cta">Book Your Inspection</a>
   </div>
 </nav>
 
@@ -1852,25 +2114,24 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-bg" style="background-image:url('WinnieAlert2_flipped.jpg')" role="img" aria-label="Winnie, a black Labrador, alerting on a scent under a kitchen dishwasher during a mold inspection"></div>
   <div class="hero-inner">
     <div class="hero-top">
-      <div class="eyebrow"><span class="dot"></span>Now booking · MN, WI, IA &amp; eastern ND/SD</div>
+      <div class="eyebrow"><span class="dot"></span>Now booking &middot; MN, WI, IA, ND &amp; SD</div>
       <h1>Find the Mold <em>Others</em> Miss.</h1>
-    </div>
-    <div class="hero-grid">
-      <div class="hero-content">
-        <p class="lead">Hidden mold slips past air tests and standard inspections. A trained detection dog finds the source by scent – even behind walls.</p>
-        <div class="hero-cta">
-          <a href="#request" data-open-form class="btn btn-large">Book A Free 15-Min Consult</a>
-          <a href="#request" data-open-form class="btn btn-large btn-ghost">Get On The Schedule</a>
-        </div>
+      <p class="lead">Hidden mold slips past air tests and standard inspections. A trained detection dog finds the source by scent – even behind walls.</p>
+      <div class="hero-cta">
+        <a href="#request" data-open-form="book" data-cta-source="hero-primary" class="btn btn-large">
+          Book Your Inspection
+        </a>
       </div>
-      <div class="hero-media">
-        <img src="Black_Lab_Cover_photo.avif" alt="Black Labrador trained for canine mold detection"/>
-      </div>
+      <a href="tel:+16124601402" class="hero-phone-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        (612) 460-1402
+      </a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><div class="num">60–90 min</div><div class="lbl">Typical Inspection</div></div>
+      <div class="stat"><div class="num">1.5–2 hrs</div><div class="lbl">Typical Inspection</div></div>
       <div class="stat"><div class="num">Same-day</div><div class="lbl">On-Site Findings</div></div>
       <div class="stat"><div class="num">MN, WI, IA, ND, SD</div><div class="lbl">States We Service</div></div>
     </div>
@@ -2024,7 +2285,7 @@
   <div class="container">
     <div class="eyebrow">Why it gets missed</div>
     <h2>You deserve solid proof of what's <em>really</em> in your home.</h2>
-    <p class="problem-intro">Air samples and ERMI dust tests only capture one spot, one moment. Mold hidden behind a wall, under flooring, or in your HVAC slips right past – so a &ldquo;normal&rdquo; result can hide the real problem.</p>
+    <p class="problem-intro">Air samples capture one spot at one moment. An ERMI is a composite dust sample built to represent the whole home – useful, but it can only tell you that mold DNA is present, never <em>where</em> it is coming from. Neither one points you at the source, so mold behind a wall, under flooring, or inside your HVAC keeps growing while the paperwork says you are fine. A canine assessment pinpoints the source producing the spores your dust test picked up.</p>
     <div class="problem-themes">
       <div class="problem-theme">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5.5"/></svg></div>
@@ -2086,7 +2347,7 @@
     <div class="section-head">
       <div>
         <div class="section-eyebrow">How we work</div>
-        <h2>Five foundational principles</h2>
+        <h2>How we find what <em>others miss.</em></h2>
       </div>
     </div>
 
@@ -2095,7 +2356,7 @@
         <div class="way-index">01</div>
         <div class="way-body">
           <h3><em>Scent first</em> discovery</h3>
-          <p>Mold releases microbial gases (MVOCs) as it grows and has a scent profile long after. Winnie is trained to detect those gases at trace concentrations and trace them to the source – even when there's no visible sign on a reachable surface, like behind a wall, under flooring, or inside the HVAC.</p>
+          <p>Mold releases microbial gases (MVOCs) as it grows, and leaves a scent profile long after. Winnie detects those gases at trace concentrations and follows them to the source – behind a wall, under flooring, or inside the HVAC.</p>
           <span class="way-more">Read more <span class="way-chev">▼</span></span>
         </div>
       </div>
@@ -2103,7 +2364,7 @@
         <div class="way-index">02</div>
         <div class="way-body">
           <h3><em>Proof</em>, not a hunch</h3>
-          <p>You need objective evidence to proceed in any case of needed remediation. As per <a href="https://www.normi.org/" target="_blank" rel="noopener">NORMI</a> professional standards, a minimum of 6 samples (air, swab, bio-tape lift) must be taken in all HVAC serviced areas of a structure to determine the extent of mold contamination. This is the objective evidence that most mold dog companies do not provide when your health is on the line.</p>
+          <p>An alert alone won’t get you remediated. Following <a href="https://www.normi.org/" target="_blank" rel="noopener">NORMI</a> standards, we take six samples (air, swab, or bio-tape lift) across the HVAC-serviced areas of your home – included in your price. Most mold dog companies don’t sample at all.</p>
           <span class="way-more">Read more <span class="way-chev">▼</span></span>
         </div>
       </div>
@@ -2111,7 +2372,7 @@
         <div class="way-index">03</div>
         <div class="way-body">
           <h3>We read the "alert" <em>and the building</em></h3>
-          <p>A certified mold dog alerts on the presence of mold -- you need to know the root cause. As part of our investigation we utilize various tools and techniques to identify appliance installation failures, construction failures, and original sources of persistent moisture.</p>
+          <p>A dog tells you mold is there. You need to know why. Using moisture meter and hygrometer readings alongside a trained visual inspection, we trace the alert back to its cause – an appliance installed wrong, a construction failure, a moisture path that never stopped.</p>
           <span class="way-more">Read more <span class="way-chev">▼</span></span>
         </div>
       </div>
@@ -2119,7 +2380,7 @@
         <div class="way-index">04</div>
         <div class="way-body">
           <h3><em>Non-invasive</em>, start to finish</h3>
-          <p>A key benefit to a certified mold dog finding source mold is to to avoid any drilling or demolition that may disturb mold and further contaminate your space. We avoid this at all costs to keep your space intact.</p>
+          <p>No drilling, no demolition, no exploratory holes. Disturbing mold to go looking for it spreads it. Winnie narrows the search first so your space stays intact.</p>
           <span class="way-more">Read more <span class="way-chev">▼</span></span>
         </div>
       </div>
@@ -2127,7 +2388,7 @@
         <div class="way-index">05</div>
         <div class="way-body">
           <h3><em>We don't disappear</em> after the report</h3>
-          <p>Finding mold is step one. We want to help you get connected to remediators we have personally vetted in your area -- only the best with the highest certifications and ability to clearly communicate their compliant techniques are recommended to you - never more than 3 in a service area.</p>
+          <p>Finding mold is step one. We connect you to remediators we’ve personally vetted – never more than three per service area – and stay available while you work through it. Some of them pay us a small referral fee (under 5%); we don’t perform remediation ourselves, so there’s nothing for us to sell you by finding more mold than is there.</p>
           <span class="way-more">Read more <span class="way-chev">▼</span></span>
         </div>
       </div>
@@ -2179,56 +2440,73 @@
 
     <div class="section-head">
       <div>
-        <div class="section-eyebrow">Transparent pricing</div>
-        <h2>No hidden fees. You'll know your <em>full price</em> before we book.</h2>
+        <div class="section-eyebrow">Pricing</div>
+        <h2>Pricing <em>Transparency</em></h2>
       </div>
     </div>
 
-
-    <div class="price-echo">
-      Mold cost me more than $50,000 over three years – because no one found it early. An inspection is a fraction of that, and the cheapest step you'll take in this whole process.
-    </div>
 
     <div class="price-tiers">
-      <!-- Tier 1 -->
-      <div class="tier featured">
-        <div class="tier-name">Inspection Pricing</div>
-        <div class="tier-tag">Serving MN, WI, IA &amp; eastern ND/SD.</div>
-        <div class="price-line"><span>Standard home (up to 3,500 sq ft)</span><span class="amt">$995</span></div>
-        <div class="price-line"><span>Large home (3,500–6,500 sq ft)</span><span class="amt">+$300</span></div>
-        <div class="price-line"><span>Over 6,500 sq ft</span><span class="amt">Custom</span></div>
-        <div class="price-line"><span>Travel beyond 25 mi from downtown Minneapolis</span><span class="amt">$1/mi driven</span></div>
-        <p class="note">First 50 miles round trip are included. After that, $1 per mile driven.</p>
+      <!-- Card 1 -->
+      <div class="tier tier-card">
+        <div class="tier-name">Complete Inspection</div>
+        <div class="price-item-row">
+          <span class="pir-label">Up to 3,500 sq ft</span>
+          <span class="pir-price" id="tier1-price"></span>
+        </div>
+        <ul class="tier-list">
+          <li>Full canine sweep of every accessible, dog-safe area</li>
+          <li>6 lab samples included – air, swab, and tape-lift</li>
+          <li>Interior visual inspection – moisture meter, hygrometer, attic &amp; crawlspace</li>
+          <li>Exterior inspection – gutters, grading, and drainage</li>
+          <li>50 miles of travel included, $1/mi beyond that</li>
+        </ul>
       </div>
 
-      <!-- Tier 2 -->
-      <div class="tier m-hide">
-        <div class="tier-name">Boats &amp; RVs</div>
-        <div class="tier-tag">Quoted separately from home inspections.</div>
-        <div class="price-line"><span>Boat or RV inspection</span><span class="amt">Custom</span></div>
-        <p class="consult-line">Boats and RVs are priced individually based on size, layout, and location – whether or not we're also inspecting your home. Reach out and we'll quote it before anything is booked.</p>
-        <a href="#request" data-open-form class="btn">Get A Quote</a>
+      <!-- Card 2 -->
+      <div class="tier tier-card">
+        <div class="tier-name">Scaled Up</div>
+        <div class="tier-range">For larger properties</div>
+
+        <div class="price-item-row">
+          <span class="pir-label">3,501–6,500 sq ft</span>
+          <span class="pir-price" id="tier2-price"></span>
+        </div>
+
+        <ul class="tier-list">
+          <li>Full canine sweep of every accessible, dog-safe area</li>
+          <li>6 lab samples included – air, swab, and tape-lift</li>
+          <li>Interior visual inspection – moisture meter, hygrometer, attic &amp; crawlspace</li>
+          <li>Exterior inspection – gutters, grading, and drainage</li>
+          <li>50 miles of travel included, $1/mi beyond that</li>
+        </ul>
+        <p class="same-services-note">The same complete inspection, scaled to your square footage. Over 6,500 sq ft? Custom pricing — reach out to discuss.</p>
       </div>
 
-      <!-- Tier 3 -->
-      <div class="tier m-hide">
-        <div class="tier-name">Multi-Property Owners</div>
-        <div class="tier-tag">Portfolios &amp; multiple properties.</div>
-        <p class="consult-line">Own multiple properties or manage a portfolio? Every situation is different – book a consult and we'll build a plan around your properties.</p>
-        <a href="#request" data-open-form class="btn">Book A Consult</a>
-        <p class="note"><strong>Travel:</strong> First 50 miles round trip included, then $1 per mile driven.</p>
+      <!-- Card 3 -->
+      <div class="tier tier-card">
+        <div class="tier-name">Add-Ons</div>
+        <div class="tier-range">Added to any inspection above</div>
+        <div style="margin-top:4px;">
+          <div class="price-item-row"><span class="pir-label">RV</span><span class="pir-price"><span class="price-now">$150</span></span></div>
+          <div class="price-item-row"><span class="pir-label">Boat</span><span class="pir-price"><span class="price-now">$100</span></span></div>
+          <div class="price-item-row"><span class="pir-label">Vehicle</span><span class="pir-price"><span class="price-now">$50 each</span></span></div>
+        </div>
+        <p class="addon-note"><strong>Must be on the property at the time of inspection.</strong> Add-ons aren’t available as a standalone booking – they’re added to a scheduled home or property inspection.</p>
       </div>
 
-      <!-- Tier 4 -->
-      <div class="tier m-hide">
-        <div class="tier-name">Square Footage</div>
-        <div class="tier-tag">How your size tier is set.</div>
-        <div class="price-line"><span>Up to 3,500 sq ft</span><span class="amt">$995</span></div>
-        <div class="price-line"><span>3,500–6,500 sq ft</span><span class="amt">$1,295</span></div>
-        <div class="price-line"><span>Over 6,500 sq ft</span><span class="amt">Custom</span></div>
-        <p class="note">Square footage covers all inspectable areas you'd like swept, including unfinished basements. Homes over 6,500 sq ft are quoted individually – book a consult and we'll price it before you commit.</p>
-      </div>
     </div>
+
+    <p class="note" style="margin-top:14px;">For commercial properties outside of this sq footage range or PRV testing please reach out directly to discuss.</p>
+
+    <div class="pricing-cta">
+      <a href="#request" data-open-form="book" data-cta-source="pricing-section" class="btn btn-large">Book Your Inspection</a>
+      <a href="tel:+16124601402" class="pricing-cta-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        (612) 460-1402
+      </a>
+    </div>
+
 
     <div class="m-expander">
       <button class="m-expand-btn" type="button" data-expander="pricing" aria-expanded="false">
@@ -2239,7 +2517,7 @@
     <div class="fine-print m-hide">
       <div class="fp-row"><strong>Booking:</strong> A 25% deposit holds your appointment; the remaining 75% is due at completion of the inspection.</div>
       <div class="fp-row"><strong>Detection only:</strong> remediation is not included. We find it and guide you – we don't do the remediation ourselves.</div>
-      <div class="fp-row"><strong>Cancellations &amp; rescheduling:</strong> Rescheduling is allowed with an advance notice of at least 24 hours with no additional fee. Additional fees may apply if you need to reschedule with less than 24 hours until the appointment. Cancellations are not accepted for any reason and will forfeit the 25% deposit if not rescheduled.</div>
+      <div class="fp-row"><strong>Rescheduling:</strong> Reschedule free with at least 48 hours’ notice. Inside 48 hours, a fee may apply. Full booking, deposit, and cancellation terms are in our <a href="/Termsconditions">Terms &amp; Conditions</a>.</div>
     </div>
 
     <div class="includes" style="margin-top:64px; margin-bottom:0; padding-top:52px; border-top:1px solid rgba(139,111,78,0.25);">
@@ -2249,13 +2527,6 @@
         <li class="journey-step">
           <span class="journey-dot"></span>
           <div class="journey-time">Inspection Day</div>
-          <ul class="journey-list">
-            <li>1st canine sweep with Winnie, handler-read in real time.</li>
-            <li>Additional visual walkthrough for confirmation of moisture issues using industry tools.</li>
-            <li>2nd canine sweep with Winnie, handler-read in real time looking for consistency of alerting.</li>
-            <li>At least six total mold testing samples (air, swab, or bio-tape lift) taken in places of canine alert.</li>
-            <li>Same-day verbal walkthrough of what was found.</li>
-          </ul>
         </li>
         <li class="journey-step">
           <span class="journey-dot"></span>
@@ -2269,11 +2540,50 @@
           <div class="journey-time">Day 5-7</div>
           <ul class="journey-list">
             <li>Final report with testing results and recommendation delivered.</li>
-            <li>15-min post assessment call to review results, answer questions, and provide next steps.</li>
-            <li>When applicable, we help you understand remediation and how to select from only a short list of recommended, certified, and industry compliant remediation companies in your area.</li>
+            <li>15-min post assessment call to review results, answer questions, and provide next steps – we’re glad to walk your functional medicine or environmental health provider through the findings too.</li>
           </ul>
         </li>
       </ol>
+    </div>
+
+    <!-- ===================== SAMPLE REPORT PEEK ===================== -->
+    <div class="report-peek">
+      <div class="includes-eyebrow">See before you buy</div>
+      <h3>A look inside a real report</h3>
+      <p class="report-note" style="font-style:normal;color:var(--ink);font-size:16px;max-width:70ch;">Pages from an actual client report, redacted. Every alert is photographed, located, tied to a moisture reading, and backed by a lab result &ndash; so you have something a remediator, a landlord, or your provider can act on.</p>
+      <div class="report-shots">
+        <button type="button" class="report-shot" data-lightbox-index="0" aria-label="Enlarge: Canine Alert Findings summary page">
+          <img src="report-peek-1.jpg" alt="Report page showing a canine alert summary table by floor level and a detailed alert log" loading="lazy" decoding="async"/>
+          <span class="report-shot-zoom" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </span>
+          <figcaption>Every alert logged by floor, with moisture readings and sample IDs.</figcaption>
+        </button>
+        <button type="button" class="report-shot" data-lightbox-index="1" aria-label="Enlarge: Alert Detail Sheet page">
+          <img src="report-peek-2.jpg" alt="Report page detailing a single canine alert with observed conditions, instrument readings, and on-site photos" loading="lazy" decoding="async"/>
+          <span class="report-shot-zoom" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </span>
+          <figcaption>Full detail sheet per alert &ndash; findings, readings, and photos.</figcaption>
+        </button>
+        <button type="button" class="report-shot" data-lightbox-index="2" aria-label="Enlarge: Areas Surveyed With No Alert page">
+          <img src="report-peek-3.jpg" alt="Report page listing every room surveyed with no canine alert, including notes and observations" loading="lazy" decoding="async"/>
+          <span class="report-shot-zoom" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </span>
+          <figcaption>Every room checked is documented &ndash; including where nothing was found.</figcaption>
+        </button>
+      </div>
+      <p class="report-tap-hint">Tap any page to view it full size.</p>
+      <p class="report-note">Client details redacted. Your report follows the same format.</p>
+
+      <div class="report-cta">
+        <a href="#request" data-open-form="book" data-cta-source="after-includes" class="btn btn-large">Book Your Inspection</a>
+        <a href="tel:+16124601402" class="report-cta-phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+          (612) 460-1402
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -2307,14 +2617,22 @@
   <div class="container request-wrap">
     <div>
       <div class="section-eyebrow">Get started</div>
-      <h2>Get on the schedule – <em>or just get answers.</em></h2>
-      <p class="lead-2">Ready to book? Get on the schedule. Not quite there yet? Grab a free 15-minute consult and we'll answer your questions, no pressure. Pick whichever fits where you are.</p>
+      <h2>Ready to get on the schedule?</h2>
+      <p class="lead-2">Fill out the form below and we’ll call to confirm your date, your square footage, and your exact price. No surprises on the invoice &ndash; the number you see on the pricing page is the number you pay, plus travel if it applies.</p>
       <ul class="checks">
-        <li>Minneapolis-based, serving MN, WI, IA &amp; eastern ND/SD</li>
-        <li>Most clients booked within 2–3 weeks</li>
-        <li>Honest pre-quote – no surprise pricing</li>
-        <li>Detection only – we don't do the remediation we recommend, so we're not upselling you a repair</li>
+        <li>Minneapolis-based, serving MN, WI, IA, ND &amp; SD</li>
+        <li>Your price confirmed on the call &ndash; no surprise invoices</li>
+        <li>Six lab samples included, never billed per sample</li>
+        <li>Detection only &ndash; we never perform the remediation we recommend</li>
+        <li>Happy to review findings with your functional medicine provider</li>
       </ul>
+      <div class="not-ready">
+        <p><strong>Not ready to book yet, or have questions first?</strong> Skip the form and give us a call &ndash; we can walk you through pricing, timing, or whether a canine inspection is even the right call for your situation.</p>
+        <a href="tel:+16124601402" class="not-ready-phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+          (612) 460-1402
+        </a>
+      </div>
     </div>
     <div class="req-embed req-cta">
       <!-- ============================================================
@@ -2326,15 +2644,12 @@
            >>> Set your form ID in ONE place: the TALLY_FORM_ID line
                in the script near the bottom of this file. <<<
            ============================================================ -->
-      <h3>Ready when you are.</h3>
-      <p>One quick form covers both – booking an inspection or grabbing a free 15-minute consult. Takes about a minute.</p>
-      <button
-        type="button"
-        class="btn btn-large"
-        data-open-form>
-        Inspection / 15-min Consult
+      <h3>Book your inspection</h3>
+      <p>A few quick details and we’ll call to confirm your date. Takes about two minutes.</p>
+      <button type="button" class="btn btn-large" data-open-form="book" data-cta-source="form-book">
+        Book Your Inspection
       </button>
-      <div class="form-foot">We'll reply within one business day.</div>
+      <div class="form-foot">We call within one business day to confirm your date</div>
     </div>
   </div>
 </section>
@@ -2352,18 +2667,15 @@
       </div>
       <div>
         <h5>Navigate</h5>
-        <a href="#symptoms">Symptoms</a>
-        <a href="#story">Our Story</a>
-        <a href="/team">Meet the Team</a>
         <a href="#services">How We Work</a>
-        <a href="/services">Services</a>
         <a href="#pricing">Pricing</a>
+        <a href="/team">Meet the Team</a>
+        <a href="/guides">Guides</a>
         <a href="/faq">FAQ</a>
-      <a href="/guides">Guides</a>
       </div>
       <div>
         <h5>Get in touch</h5>
-        <a href="#request" data-open-form>Book a Consult</a>
+        <a href="#request" data-open-form="book" data-cta-source="footer">Book Your Inspection</a>
         <a href="mailto:hello@molddog-midwest.com">hello@molddog-midwest.com</a>
         <a href="tel:+16124601402">(612) 460-1402</a>
       </div>
@@ -2625,9 +2937,21 @@
     emoji: { text: "🐾", animation: "wave" }
   };
 
-  function openBookingForm() {
+  /* Every CTA routes here. Two things get passed to Tally as hidden fields:
+       intent  - "book" | "consult" | "quote"  (what the person clicked)
+       source  - a short label for WHERE on the page they clicked
+     Add matching hidden fields named "intent" and "source" in your Tally form
+     to see which CTAs are actually producing bookings. Nothing breaks if you
+     do not add them - Tally ignores hidden fields it does not recognise. */
+  function openBookingForm(intent, source) {
+    var opts = Object.assign({}, TALLY_OPTS, {
+      hiddenFields: {
+        intent: intent || "book",
+        source: source || "unknown"
+      }
+    });
     if (window.Tally && typeof Tally.openPopup === "function") {
-      Tally.openPopup(TALLY_FORM_ID, TALLY_OPTS);
+      Tally.openPopup(TALLY_FORM_ID, opts);
     } else {
       // Fallback if the Tally script hasn't loaded yet: go to the booking section.
       const el = document.getElementById("request");
@@ -2640,7 +2964,10 @@
     const trigger = e.target.closest("[data-open-form]");
     if (trigger) {
       e.preventDefault();
-      openBookingForm();
+      openBookingForm(
+        trigger.getAttribute("data-open-form") || "book",
+        trigger.getAttribute("data-cta-source") || "unknown"
+      );
     }
   });
 </script>
@@ -2654,18 +2981,18 @@
   var STAR='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
   function starsHtml(n){var s='';for(var i=0;i<n;i++){s+=STAR;}return s;}
   var REVIEWS=[
-    { name:"Kaitlynn B.", initial:"K", stars:5, date:"This week", text:"I called Ben and Winnie to my home as it has been over 3 years since I have gotten a mold test done. Because we live in a damp area and I have chronic illnesses, checking our home for mold is very important to me! Winnie thoroughly checked our home and garage (by request) and alerted to one potential area that we will be keeping our eyes on! Having this knowledge helps me feel like I know my home better, and empowers me to make decisions about my home for myself and my family!" },
-    { name:"Jesse M.", initial:"J", stars:5, date:"Last week", text:"I would highly recommend Ben & Winnie! Ben is professional, customer-oriented, and clearly on a mission to ensure his clients have healthy, mold-free living conditions. We\u2019ve heard horror stories of how undetected mold can significantly affect health, so we had Ben & Winnie stop by the other day for a peace of mind visit. Winnie confirmed we are in good standing!" },
-    { name:"Tyler H.", initial:"T", stars:5, date:"10 days ago", text:"Working with Ben and Winnie was great. Between Ben's care, knowledge, meticulous eye, and Winnie's nose, we learned everything we needed. We highly recommend working with them!" },
-    { name:"Nick R.", initial:"N", stars:5, date:"15 days ago", text:"Ben and Winnie were fantastic. Ben is knowledgeable, friendly, and takes time to walk through his process and why moisture may be accumulating. Winnie did a great job finding very specific areas of mold growth. Highly recommend!" },
-    { name:"Kim A.",  initial:"K", stars:5, date:"17 days ago",  text:"Ben and his dog Winnie did an excellent job searching our family home for areas of potential water intrusion and mold! Winnie detected this one spot downstairs twice and after moving a few things around we found this mold on the wall! Feels good to know other areas we were worried about (related to smell) did not detect anything. Can sleep soundly with our littles knowing they are safe :) Thanks again Ben! I\u2019d recommend Mold Dog Midwest to everyone!" },
-    { name:"Max A.",  initial:"M", stars:5, date:"30 days ago", text:"We recently had Ben and his amazing mold dog, Winnie, out to our home in New Hope, and we couldn\u2019t be more grateful for their help! As a family, having peace of mind about our home\u2019s air quality and safety is everything to us. Ben was incredibly professional, thorough, and patient with all our questions, and watching Winnie work was incredible\u2014she is super accurate and so sweet with our family! She detected two hidden mold areas that we never would have found on our own, including a critical spot right by our HVAC unit behind the freezer. Catching the mold before it spread through the whole HVAC system saved us so much time, money, and stress. We are beyond thankful for Ben and Winnie\u2019s expertise. If you suspect mold in your home, do not hesitate to call them\u2014we cannot recommend them highly enough!" }
+    { name:"Kaitlynn B.", city:"Minneapolis, MN", initial:"K", stars:5, date:"This week", text:"I called Ben and Winnie to my home as it has been over 3 years since I have gotten a mold test done. Because we live in a damp area and I have chronic illnesses, checking our home for mold is very important to me! Winnie thoroughly checked our home and garage (by request) and alerted to one potential area that we will be keeping our eyes on! Having this knowledge helps me feel like I know my home better, and empowers me to make decisions about my home for myself and my family!" },
+    { name:"Jesse M.", city:"Plymouth, MN", initial:"J", stars:5, date:"Last week", text:"I would highly recommend Ben & Winnie! Ben is professional, customer-oriented, and clearly on a mission to ensure his clients have healthy, mold-free living conditions. We\u2019ve heard horror stories of how undetected mold can significantly affect health, so we had Ben & Winnie stop by the other day for a peace of mind visit. Winnie confirmed we are in good standing!" },
+    { name:"Tyler H.", city:"Richfield, MN", initial:"T", stars:5, date:"10 days ago", text:"Working with Ben and Winnie was great. Between Ben's care, knowledge, meticulous eye, and Winnie's nose, we learned everything we needed. We highly recommend working with them!" },
+    { name:"Nick R.", city:"St. Louis Park, MN", initial:"N", stars:5, date:"15 days ago", text:"Ben and Winnie were fantastic. Ben is knowledgeable, friendly, and takes time to walk through his process and why moisture may be accumulating. Winnie did a great job finding very specific areas of mold growth. Highly recommend!" },
+    { name:"Kim A.", city:"New Hope, MN",  initial:"K", stars:5, date:"17 days ago",  text:"Ben and his dog Winnie did an excellent job searching our family home for areas of potential water intrusion and mold! Winnie detected this one spot downstairs twice and after moving a few things around we found this mold on the wall! Feels good to know other areas we were worried about (related to smell) did not detect anything. Can sleep soundly with our littles knowing they are safe :) Thanks again Ben! I\u2019d recommend Mold Dog Midwest to everyone!" },
+    { name:"Max A.", city:"New Hope, MN",  initial:"M", stars:5, date:"30 days ago", text:"We recently had Ben and his amazing mold dog, Winnie, out to our home in New Hope, and we couldn\u2019t be more grateful for their help! As a family, having peace of mind about our home\u2019s air quality and safety is everything to us. Ben was incredibly professional, thorough, and patient with all our questions, and watching Winnie work was incredible\u2014she is super accurate and so sweet with our family! She detected two hidden mold areas that we never would have found on our own, including a critical spot right by our HVAC unit behind the freezer. Catching the mold before it spread through the whole HVAC system saved us so much time, money, and stress. We are beyond thankful for Ben and Winnie\u2019s expertise. If you suspect mold in your home, do not hesitate to call them\u2014we cannot recommend them highly enough!" }
   ];
   var track=document.getElementById('rvTrack'); if(!track) return;
   var html='';
   for(var i=0;i<REVIEWS.length;i++){var r=REVIEWS[i];
     html+='<article class="review-card"><div class="rc-head"><div class="rc-avatar">'+r.initial+'</div>'
-      +'<div><div class="rc-name">'+r.name+'</div><div class="rc-via">'+GVIA+' via Google</div></div></div>'
+      +'<div><div class="rc-name">'+r.name+(r.city?' <span class="rc-city">\u00b7 '+r.city+'</span>':'')+'</div><div class="rc-via">'+GVIA+' via Google</div></div></div>'
       +'<div class="rc-stars stars">'+starsHtml(r.stars)+'</div>'
       +'<p class="rc-text">'+r.text+'</p><div class="rc-date">'+r.date+'</div></article>';
   }
@@ -2760,6 +3087,120 @@
   }, { passive: true });
 
   update(); resetAuto();
+})();
+</script>
+
+
+<script>
+/* ===================== PRICING: AUTO-EXPIRING PROMO =====================
+   Everything about the current promotion – the badge, the crossed-out
+   regular price, the end date shown – is driven by this one config block.
+
+   While today falls inside start–end, both home cards show the badge and
+   the struck-through regular price. The moment that window closes, both
+   cards automatically fall back to plain pricing at the "was" amount –
+   no badge, no strikethrough, nothing to remember to edit by hand.
+
+   To run a future promo: change label / start / end / prices below.
+   To end this one early: set active to false.
+========================================================================= */
+(function(){
+  var PROMO = {
+    active: true,
+    label: "September Special",
+    start: "2026-09-01",
+    end:   "2026-09-30T23:59:59",
+    tier1: { now: 995,  was: 1450 },
+    tier2: { now: 1295, was: 1750 }
+  };
+
+  function promoIsLive(){
+    if(!PROMO.active) return false;
+    var now = new Date();
+    return now >= new Date(PROMO.start) && now <= new Date(PROMO.end);
+  }
+  function endDateLabel(){
+    var d = new Date(PROMO.end);
+    return (d.getMonth()+1) + "/" + d.getDate();
+  }
+  function money(n){ return "$" + n.toLocaleString("en-US"); }
+
+  var t1 = document.getElementById('tier1-price');
+  var t2 = document.getElementById('tier2-price');
+  if(!t1 || !t2) return;
+
+  if(promoIsLive()){
+    t1.innerHTML =
+      '<div class="promo-badge">' + PROMO.label + '</div>' +
+      '<div class="price-row"><span class="price-now">' + money(PROMO.tier1.now) + '</span>' +
+      '<span class="price-was">' + money(PROMO.tier1.was) + '</span></div>';
+
+    t2.innerHTML =
+      '<div class="promo-badge">' + PROMO.label + '</div>' +
+      '<div class="price-row"><span class="price-now">' + money(PROMO.tier2.now) + '</span> ' +
+      '<span class="price-was">' + money(PROMO.tier2.was) + '</span></div>';
+  } else {
+    t1.innerHTML = '<div class="price-row"><span class="price-now">' + money(PROMO.tier1.was) + '</span></div>';
+    t2.innerHTML = '<div class="price-row"><span class="price-now">' + money(PROMO.tier2.was) + '</span></div>';
+  }
+})();
+</script>
+
+<!-- STICKY MOBILE ACTION BAR -->
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <a class="sc-call" href="tel:+16124601402" aria-label="Call Mold Dog Midwest">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+    Call
+  </a>
+  <a class="sc-book" href="#request" data-open-form="book" data-cta-source="sticky-mobile">Book Your Inspection</a>
+</div>
+
+<script>
+/* Sticky mobile CTA: appears once the hero scrolls away, hides over the form
+   so it never covers the thing it is pointing at. */
+(function(){
+  var bar = document.getElementById('stickyCta');
+  if(!bar) return;
+  var hero = document.querySelector('.hero');
+  var form = document.getElementById('request');
+  var footer = document.querySelector('footer');
+  var pastHero = false, overForm = false;
+
+  function sync(){
+    var show = pastHero && !overForm;
+    bar.classList.toggle('show', show);
+    bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+  }
+
+  if('IntersectionObserver' in window){
+    if(hero){
+      new IntersectionObserver(function(en){
+        pastHero = !en[0].isIntersecting;
+        sync();
+      }, { threshold: 0 }).observe(hero);
+    } else { pastHero = true; }
+
+    var tail = [form, footer].filter(Boolean);
+    if(tail.length){
+      var visible = [];
+      var tailObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          var i = visible.indexOf(e.target);
+          if(e.isIntersecting && i === -1) visible.push(e.target);
+          if(!e.isIntersecting && i > -1) visible.splice(i, 1);
+        });
+        overForm = visible.length > 0;
+        sync();
+      }, { threshold: 0 });
+      tail.forEach(function(el){ tailObs.observe(el); });
+    }
+  } else {
+    window.addEventListener('scroll', function(){
+      pastHero = window.scrollY > 420;
+      sync();
+    }, { passive: true });
+  }
+  sync();
 })();
 </script>
 
