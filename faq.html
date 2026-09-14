@@ -34,6 +34,8 @@
   :root {
     --sage: #6B8073;
     --sage-dark: #556B5F;
+    --cta: #3D5A49;
+    --cta-dark: #2F4137;
     --brick: #A04B2C;
     --brick-dark: #803A22;
     --walnut: #8B6F4E;
@@ -145,7 +147,7 @@
   .nav-links a:hover { color: var(--brick); text-decoration: none; }
   .btn {
     display: inline-block;
-    background: var(--brick);
+    background: var(--cta);
     color: var(--bone);
     padding: 12px 24px;
     border-radius: 8px;
@@ -157,8 +159,12 @@
     border: none; cursor: pointer;
     text-decoration: none;
   }
-  .btn:hover { background: var(--brick-dark); text-decoration: none; transform: translateY(-1px); }
+  .btn:hover { background: var(--cta-dark); text-decoration: none; transform: translateY(-1px); }
   .btn-large { padding: 18px 36px; font-size: 15px; border-radius: 10px; }
+  /* The nav's generic link-color rule (.nav-links a) has higher specificity than .btn,
+     so without this override the nav CTA text renders in --ink and turns --brick on
+     hover instead of staying the button's white/bone text. */
+  .nav-links a.btn, .nav-links a.btn:hover { color: var(--bone); }
   /* Hamburger toggle button – hidden on desktop */
   .nav-toggle {
     display: none;
@@ -208,7 +214,7 @@
   .mobile-menu a:hover { color: var(--brick); text-decoration: none; }
   .mobile-menu .mobile-menu-cta {
     margin-top: 14px;
-    background: var(--brick);
+    background: var(--cta);
     color: var(--bone);
     text-align: center;
     text-transform: uppercase;
@@ -220,7 +226,7 @@
     border-bottom: none;
   }
   .mobile-menu .mobile-menu-cta:hover {
-    background: var(--brick-dark);
+    background: var(--cta-dark);
     color: var(--bone);
   }
   .mobile-menu.open { display: flex; }
@@ -326,6 +332,15 @@
   .faq-cta h2 em { color: var(--brick); font-style: italic; }
   .faq-cta p { color: rgba(239, 233, 220, 0.8); font-size: 17px; margin-bottom: 30px; max-width: 540px; margin-left: auto; margin-right: auto; }
   .faq-cta .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .pricing-cta { margin-top: 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .pricing-cta-phone {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: var(--body); font-size: 16px; font-weight: 600;
+    color: var(--bone); text-decoration: none;
+  }
+  .pricing-cta-phone svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--bone); opacity: .75; }
+  .pricing-cta-phone:hover { color: var(--brick); }
+  .pricing-cta-phone:hover svg { color: var(--brick); opacity: 1; }
   .btn-ghost { background: transparent; color: var(--bone); border: 1.5px solid var(--bone); }
   .btn-ghost:hover { background: var(--bone); color: var(--ink); }
 
@@ -474,7 +489,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
         <span>(612) 460-1402</span>
       </a>
-      <a href="/#request" class="btn">Book Your Inspection</a>
+      <a href="/#request" data-open-form="book" data-cta-source="nav" class="btn">Book Your Inspection</a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="nav-toggle-bar"></span>
@@ -489,7 +504,7 @@
     <a href="/guides">Guides</a>
     <a href="/faq" aria-current="page">FAQ</a>
     <a href="tel:+16124601402" class="mobile-menu-call">Call (612) 460-1402</a>
-    <a href="/#request" class="mobile-menu-cta">Book Your Inspection</a>
+    <a href="/#request" data-open-form="book" data-cta-source="mobile-menu" class="mobile-menu-cta">Book Your Inspection</a>
   </div>
 </nav>
 
@@ -606,9 +621,12 @@
   <div class="container">
     <h2>Still have a question?</h2>
     <p>Grab a free 15-minute consult and we'll answer it – no pressure, no obligation.</p>
-    <div class="cta-row">
-      <a href="/#request" class="btn btn-large">Book A Free 15-Min Consult</a>
-      <a href="/#request" class="btn btn-large btn-ghost">Get On The Schedule</a>
+    <div class="pricing-cta">
+      <a href="/#request" data-open-form="book" data-cta-source="faq-cta" class="btn btn-large">Book Your Inspection</a>
+      <a href="tel:+16124601402" class="pricing-cta-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        (612) 460-1402
+      </a>
     </div>
   </div>
 </section>
@@ -636,7 +654,7 @@
       </div>
       <div>
         <h5>Get in touch</h5>
-        <a href="/#request">Book a Consult</a>
+        <a href="/#request" data-open-form="book" data-cta-source="footer">Book Your Inspection</a>
         <a href="mailto:hello@molddog-midwest.com">hello@molddog-midwest.com</a>
         <a href="tel:+16124601402">(612) 460-1402</a>
       </div>
@@ -685,7 +703,8 @@
     }
   })();
 
-  /* ---- September promo banner: auto-expires after Sept 30, 2026 ---- */
+  /* ---- September promo banner: auto-expires after Sept 30, 2026; dismissal persists
+     across every page on the site (localStorage), not just the current page/session ---- */
   (function () {
     var banner = document.getElementById('promoBanner');
     if (!banner) return;
@@ -694,9 +713,19 @@
        To run this promo again, just change these two dates. */
     var PROMO_START = new Date(2026, 7, 31, 0, 0, 0);   /* Aug 31, 2026, 12:00 AM */
     var PROMO_END   = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
+    /* Bump this key (e.g. to "mdm_promo_dismissed_v2") to run a future promo again
+       even for people who dismissed this one. */
+    var DISMISS_KEY = 'mdm_promo_dismissed_sept2026';
 
     var now = new Date();
     if (now < PROMO_START || now >= PROMO_END) {
+      banner.parentNode.removeChild(banner);
+      return;
+    }
+
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === '1'; } catch (e) {}
+    if (dismissed) {
       banner.parentNode.removeChild(banner);
       return;
     }
@@ -707,6 +736,7 @@
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         banner.classList.add('is-hidden');
+        try { localStorage.setItem(DISMISS_KEY, '1'); } catch (e) {}
       });
     }
   })();
@@ -758,6 +788,55 @@
     });
   })();
 </script>
+
+<!-- ===== Booking popup: SET YOUR TALLY FORM ID HERE (one place) ===== -->
+<script>
+  // Replace YOUR_FORM_ID with your Tally form's ID (the code after tally.so/r/ – e.g. "wAbC12").
+  const TALLY_FORM_ID = "81ElPO";
+  const TALLY_OPTS = {
+    layout: "modal",
+    width: 640,
+    hideTitle: true,
+    overlay: true,
+    emoji: { text: "🐾", animation: "wave" }
+  };
+
+  /* Every CTA routes here. Two things get passed to Tally as hidden fields:
+       intent  - "book" | "consult" | "quote"  (what the person clicked)
+       source  - a short label for WHERE on the page they clicked
+     Add matching hidden fields named "intent" and "source" in your Tally form
+     to see which CTAs are actually producing bookings. Nothing breaks if you
+     do not add them - Tally ignores hidden fields it does not recognise. */
+  function openBookingForm(intent, source) {
+    var opts = Object.assign({}, TALLY_OPTS, {
+      hiddenFields: {
+        intent: intent || "book",
+        source: source || "unknown"
+      }
+    });
+    if (window.Tally && typeof Tally.openPopup === "function") {
+      Tally.openPopup(TALLY_FORM_ID, opts);
+    } else {
+      // Fallback if the Tally script hasn't loaded yet: go to the homepage booking section.
+      window.location.href = "/#request";
+    }
+  }
+
+  // Any element with [data-open-form] opens the popup (nav, CTA strip, footer).
+  document.addEventListener("click", function (e) {
+    const trigger = e.target.closest("[data-open-form]");
+    if (trigger) {
+      e.preventDefault();
+      openBookingForm(
+        trigger.getAttribute("data-open-form") || "book",
+        trigger.getAttribute("data-cta-source") || "unknown"
+      );
+    }
+  });
+</script>
+
+<!-- Tally embed loader -->
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
 
 </body>
 </html>

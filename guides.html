@@ -27,7 +27,7 @@
 </script>
 <style>
 :root{
-  --sage:#6B8073; --sage-dark:#556B5F; --brick:#A04B2C; --brick-dark:#803A22;
+  --sage:#6B8073; --sage-dark:#556B5F; --cta:#3D5A49; --cta-dark:#2F4137; --brick:#A04B2C; --brick-dark:#803A22;
   --walnut:#8B6F4E; --ink:#2A2A28; --ink2:#4A4A46; --muted:#7A7568;
   --bone:#EFE9DC; --bone-deep:#E3DBC8; --gold:#E0A526; --line:rgba(139,111,78,.22);
   --display:'Fraunces',Georgia,serif; --body:'Inter Tight',system-ui,sans-serif;
@@ -37,6 +37,18 @@ body{margin:0;background:var(--bone);color:var(--ink);font-family:var(--body);li
 img{max-width:100%;display:block}
 .container{max-width:1240px;margin:0 auto;padding:0 28px}
 a{color:var(--brick);text-decoration:none}
+
+/* SEPTEMBER PROMO BANNER (matches homepage) */
+.promo-banner{background:var(--brick);color:var(--bone);text-align:center;padding:11px 44px 11px 20px;font-size:14.5px;font-weight:500;line-height:1.45;position:relative;letter-spacing:.01em}
+.promo-banner .promo-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.promo-banner strong{font-weight:700}
+.promo-banner .promo-price{font-family:var(--display);font-size:17px;font-weight:600}
+.promo-banner a.promo-cta{color:var(--bone);text-decoration:underline;text-underline-offset:3px;font-weight:600;white-space:nowrap}
+.promo-banner a.promo-cta:hover{color:#fff}
+.promo-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--bone);font-size:20px;line-height:1;cursor:pointer;padding:4px 8px;opacity:.75}
+.promo-close:hover{opacity:1}
+.promo-banner[hidden],.promo-banner.is-hidden{display:none}
+@media(max-width:620px){.promo-banner{font-size:13px;padding:10px 38px 10px 14px}.promo-banner .promo-price{font-size:15px}.promo-banner .promo-inner{gap:6px}}
 
 /* NAV (matches site) */
 nav{position:sticky;top:0;z-index:50;background:rgba(239,233,220,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -51,15 +63,22 @@ nav{position:sticky;top:0;z-index:50;background:rgba(239,233,220,.92);backdrop-f
 .nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
 .nav-dropdown-menu a{display:block;color:var(--ink);font-size:14px;padding:9px 12px;border-radius:7px}
 .nav-dropdown-menu a:hover{background:var(--bone-deep);color:var(--brick)}
-.btn{display:inline-block;background:var(--brick);color:var(--bone);padding:12px 22px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:.16s}
-.btn:hover{background:var(--brick-dark);transform:translateY(-1px);color:var(--bone)}
+.btn{display:inline-block;background:var(--cta);color:var(--bone);padding:12px 24px;border-radius:8px;font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;transition:background .2s ease,transform .2s ease;border:none;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--cta-dark);transform:translateY(-1px);color:var(--bone)}
+.btn-large{padding:18px 36px;font-size:15px;border-radius:10px}
+/* The nav's generic link rule (.nav-links > a) has higher specificity than .btn and
+   also resets padding/display for plain nav links, so restate both explicitly here
+   to keep the nav CTA looking identical to the homepage's. */
+.nav-links a.btn{display:inline-block;padding:12px 24px;color:var(--bone)}
+.nav-links a.btn:hover{color:var(--bone)}
 .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:40px;background:none;border:none;cursor:pointer}
 .nav-toggle-bar{height:2px;width:24px;background:var(--ink);border-radius:2px}
 .mobile-menu{display:none;flex-direction:column;border-top:1px solid var(--line);background:var(--bone);padding:10px 28px 18px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{color:var(--ink);padding:11px 0;font-size:15px;border-bottom:1px solid var(--line)}
 .mobile-menu a:last-child{border-bottom:none}
-.mobile-menu-cta{color:var(--brick)!important;font-weight:600}
+.mobile-menu-cta{margin-top:14px;background:var(--cta);color:var(--bone)!important;text-align:center;text-transform:uppercase;font-size:14px;letter-spacing:.04em;font-weight:600;padding:15px 20px;border-radius:8px;border-bottom:none}
+.mobile-menu-cta:hover{background:var(--cta-dark);color:var(--bone)!important}
 /* --- header click-to-call (matches homepage) --- */
 .nav-call{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;margin-right:4px;white-space:nowrap}
 .nav-call svg{width:16px;height:16px;opacity:.7}
@@ -113,8 +132,11 @@ a.card:hover{border-color:var(--brick)}
 .cta{background:var(--sage);border-radius:16px;padding:34px 36px;margin:56px 0 10px;text-align:center}
 .cta h3{font-family:var(--display);font-weight:500;font-size:28px;color:var(--bone);margin:0 0 8px}
 .cta p{margin:0 0 22px;color:rgba(239,233,220,.86);font-size:16px}
-.cta a{display:inline-block;background:var(--bone);color:var(--brick);padding:14px 30px;border-radius:9px;font-weight:600;font-size:15px}
-.cta a:hover{background:var(--brick);color:var(--bone)}
+.cta .pricing-cta{margin-top:8px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cta .pricing-cta-phone{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:none;padding:0;border-radius:0;font-family:var(--body);font-size:16px;font-weight:600;color:var(--bone);text-decoration:none}
+.cta .pricing-cta-phone svg{width:17px;height:17px;flex-shrink:0;color:var(--bone);opacity:.75}
+.cta .pricing-cta-phone:hover{color:var(--brick-dark);opacity:1}
+.cta .pricing-cta-phone:hover svg{opacity:1}
 
 /* footer */
 footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60px}
@@ -135,6 +157,15 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
 </head>
 <body>
 
+<!-- SEPTEMBER PROMO BANNER (auto-expires — see promo script at end of file) -->
+<div class="promo-banner" id="promoBanner" role="region" aria-label="September promotion" hidden>
+  <div class="promo-inner">
+    <span><strong>September Special:</strong> Book your inspection this month for <span class="promo-price">$995</span> &mdash; homes up to 3,500 sq ft.</span>
+    <a href="/#request" data-open-form="book" data-cta-source="promo-banner" class="promo-cta">Book Now &rarr;</a>
+  </div>
+  <button class="promo-close" type="button" id="promoClose" aria-label="Dismiss announcement">&times;</button>
+</div>
+
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo" aria-label="Mold Dog Midwest - home"><img src="/MDM_primaryNoSlogan.svg" class="logo-img" alt="Mold Dog Midwest"></a>
@@ -145,14 +176,14 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
       <a href="/guides" aria-current="page">Guides</a>
       <a href="/faq">FAQ</a>
       <a href="tel:+16124601402" class="nav-call" aria-label="Call Mold Dog Midwest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg><span>(612) 460-1402</span></a>
-      <a href="/#request" class="btn">Book Your Inspection</a>
+      <a href="/#request" data-open-form="book" data-cta-source="nav" class="btn">Book Your Inspection</a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="/#services">How We Work</a><a href="/#pricing">Pricing</a><a href="/team">Meet the Team</a><a href="/guides" aria-current="page">Guides</a><a href="/faq">FAQ</a>
     <a href="tel:+16124601402" class="mobile-menu-call">Call (612) 460-1402</a>
-    <a href="/#request" class="mobile-menu-cta">Book Your Inspection</a>
+    <a href="/#request" data-open-form="book" data-cta-source="mobile-menu" class="mobile-menu-cta">Book Your Inspection</a>
   </div>
 </nav>
 
@@ -202,7 +233,13 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
   <div class="cta">
     <h3>Have a musty smell you can&rsquo;t find?</h3>
     <p>Flat-rate, canine-led mold inspection across MN, WI, IA, ND &amp; SD. Six lab samples included, and you know the price before we arrive.</p>
-    <a href="/#request" data-open-form>Book A Free 15-Min Consult</a>
+    <div class="pricing-cta">
+      <a href="/#request" data-open-form="book" data-cta-source="guides-cta" class="btn btn-large">Book Your Inspection</a>
+      <a href="tel:+16124601402" class="pricing-cta-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        (612) 460-1402
+      </a>
+    </div>
   </div>
 </div>
 
@@ -220,7 +257,7 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
       </div>
       <div>
         <h5>Get in touch</h5>
-        <a href="/#request" data-open-form>Book a Consult</a><a href="mailto:hello@molddog-midwest.com">hello@molddog-midwest.com</a><a href="tel:+16124601402">(612) 460-1402</a>
+        <a href="/#request" data-open-form="book" data-cta-source="footer">Book Your Inspection</a><a href="mailto:hello@molddog-midwest.com">hello@molddog-midwest.com</a><a href="tel:+16124601402">(612) 460-1402</a>
       </div>
       <div>
         <h5>Follow along</h5>
@@ -239,5 +276,93 @@ footer{background:var(--ink);color:var(--bone);padding:64px 0 30px;margin-top:60
   var t=document.getElementById('navToggle'), mm=document.getElementById('mobileMenu');
   t&&t.addEventListener('click',function(){var o=mm.classList.toggle('open');t.setAttribute('aria-expanded',o);});
 </script>
+<!-- ---- September promo banner: auto-expires after Sept 30, 2026; dismissal persists
+     across every page on the site (localStorage), not just the current page/session ---- -->
+<script>
+  (function () {
+    var banner = document.getElementById('promoBanner');
+    if (!banner) return;
+
+    /* Promo window. Months are 0-indexed: 7 = August, 8 = September, 9 = October.
+       To run this promo again, just change these two dates. */
+    var PROMO_START = new Date(2026, 7, 31, 0, 0, 0);   /* Aug 31, 2026, 12:00 AM */
+    var PROMO_END   = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
+    /* Bump this key (e.g. to "mdm_promo_dismissed_v2") to run a future promo again
+       even for people who dismissed this one. */
+    var DISMISS_KEY = 'mdm_promo_dismissed_sept2026';
+
+    var now = new Date();
+    if (now < PROMO_START || now >= PROMO_END) {
+      banner.parentNode.removeChild(banner);
+      return;
+    }
+
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === '1'; } catch (e) {}
+    if (dismissed) {
+      banner.parentNode.removeChild(banner);
+      return;
+    }
+
+    banner.hidden = false;
+
+    var closeBtn = document.getElementById('promoClose');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        banner.classList.add('is-hidden');
+        try { localStorage.setItem(DISMISS_KEY, '1'); } catch (e) {}
+      });
+    }
+  })();
+</script>
+<!-- ===== Booking popup: SET YOUR TALLY FORM ID HERE (one place) ===== -->
+<script>
+  // Replace YOUR_FORM_ID with your Tally form's ID (the code after tally.so/r/ – e.g. "wAbC12").
+  const TALLY_FORM_ID = "81ElPO";
+  const TALLY_OPTS = {
+    layout: "modal",
+    width: 640,
+    hideTitle: true,
+    overlay: true,
+    emoji: { text: "🐾", animation: "wave" }
+  };
+
+  /* Every CTA routes here. Two things get passed to Tally as hidden fields:
+       intent  - "book" | "consult" | "quote"  (what the person clicked)
+       source  - a short label for WHERE on the page they clicked
+     Add matching hidden fields named "intent" and "source" in your Tally form
+     to see which CTAs are actually producing bookings. Nothing breaks if you
+     do not add them - Tally ignores hidden fields it does not recognise. */
+  function openBookingForm(intent, source) {
+    var opts = Object.assign({}, TALLY_OPTS, {
+      hiddenFields: {
+        intent: intent || "book",
+        source: source || "unknown"
+      }
+    });
+    if (window.Tally && typeof Tally.openPopup === "function") {
+      Tally.openPopup(TALLY_FORM_ID, opts);
+    } else {
+      // Fallback if the Tally script hasn't loaded yet: go to the homepage booking section.
+      window.location.href = "/#request";
+    }
+  }
+
+  // Any element with [data-open-form] opens the popup (nav, CTA block, footer).
+  document.addEventListener("click", function (e) {
+    const trigger = e.target.closest("[data-open-form]");
+    if (trigger) {
+      e.preventDefault();
+      openBookingForm(
+        trigger.getAttribute("data-open-form") || "book",
+        trigger.getAttribute("data-cta-source") || "unknown"
+      );
+    }
+  });
+</script>
+
+<!-- Tally embed loader -->
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+
 </body>
 </html>

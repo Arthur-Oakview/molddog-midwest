@@ -240,6 +240,10 @@
     text-decoration: none;
   }
   .btn:hover { background: var(--cta-dark); text-decoration: none; transform: translateY(-1px); }
+  /* The nav's generic link-color rule (.nav-links a) has higher specificity than .btn,
+     so without this override the nav CTA text renders in --ink and turns --brick on
+     hover instead of staying the button's white/bone text. */
+  .nav-links a.btn, .nav-links a.btn:hover { color: var(--bone); }
   .btn-large { padding: 18px 36px; font-size: 15px; border-radius: 10px; }
   .btn-ghost {
     background: transparent;
@@ -2863,7 +2867,8 @@
     }
   })();
 
-  /* ---- September promo banner: auto-expires after Sept 30, 2026 ---- */
+  /* ---- September promo banner: auto-expires after Sept 30, 2026; dismissal persists
+     across every page on the site (localStorage), not just the current page/session ---- */
   (function () {
     var banner = document.getElementById('promoBanner');
     if (!banner) return;
@@ -2872,9 +2877,19 @@
        To run this promo again, just change these two dates. */
     var PROMO_START = new Date(2026, 7, 31, 0, 0, 0);   /* Aug 31, 2026, 12:00 AM */
     var PROMO_END   = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
+    /* Bump this key (e.g. to "mdm_promo_dismissed_v2") to run a future promo again
+       even for people who dismissed this one. */
+    var DISMISS_KEY = 'mdm_promo_dismissed_sept2026';
 
     var now = new Date();
     if (now < PROMO_START || now >= PROMO_END) {
+      banner.parentNode.removeChild(banner);
+      return;
+    }
+
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === '1'; } catch (e) {}
+    if (dismissed) {
       banner.parentNode.removeChild(banner);
       return;
     }
@@ -2885,6 +2900,7 @@
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         banner.classList.add('is-hidden');
+        try { localStorage.setItem(DISMISS_KEY, '1'); } catch (e) {}
       });
     }
   })();
