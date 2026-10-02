@@ -37,7 +37,7 @@
   "logo": "https://molddog-midwest.com/MDM_LogoOnly.png",
   "description": "A trained mold dog finds hidden mold behind walls, under floors, and in HVAC by scent. Minneapolis-based, serving MN, WI, IA & eastern ND/SD.",
   "telephone": "+1-612-460-1402",
-  "priceRange": "$995–$1,295",
+  "priceRange": "$1,095–$1,395",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Minneapolis",
@@ -112,7 +112,7 @@
   img { max-width: 100%; display: block; }
   .container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
 
-  /* ---------- SEPTEMBER PROMO BANNER ---------- */
+  /* ---------- OCTOBER PROMO BANNER ---------- */
   .promo-banner {
     background: var(--brick);
     color: var(--bone);
@@ -2068,10 +2068,10 @@
 
 <div class="site-header" id="siteHeader">
 
-<!-- SEPTEMBER PROMO BANNER (auto-expires — see promo script at end of file) -->
-<div class="promo-banner" id="promoBanner" role="region" aria-label="September promotion" hidden>
+<!-- OCTOBER PROMO BANNER (auto-expires — see promo script at end of file) -->
+<div class="promo-banner" id="promoBanner" role="region" aria-label="October promotion" hidden>
   <div class="promo-inner">
-    <span><strong>September Special:</strong> Book your inspection this month for <span class="promo-price">$995</span> &mdash; homes up to 3,500 sq ft.</span>
+    <span><strong>October Special:</strong> Book your inspection this month for <span class="promo-price">$1,095</span> &mdash; homes up to 3,500 sq ft.</span>
     <a href="#request" data-open-form="book" data-cta-source="promo-banner" class="promo-cta">Book Now &rarr;</a>
   </div>
   <button class="promo-close" type="button" id="promoClose" aria-label="Dismiss announcement">&times;</button>
@@ -2470,7 +2470,7 @@
       <!-- Card 2 -->
       <div class="tier tier-card">
         <div class="tier-name">Scaled Up</div>
-        <div class="tier-range">Homes between 3,501–6,500 sq ft</div>
+        <div class="tier-range">Homes between 3,501–5,000 sq ft</div>
 
         <div class="price-item-row price-item-row--solo">
           <span class="pir-price" id="tier2-price"></span>
@@ -2483,7 +2483,7 @@
           <li>Exterior inspection – gutters, grading, and drainage</li>
           <li>50 miles of travel included, $1/mi beyond that</li>
         </ul>
-        <p class="same-services-note">The same complete inspection, scaled to your square footage. Over 6,500 sq ft? Custom pricing — reach out to discuss.</p>
+        <p class="same-services-note">The same complete inspection, scaled to your square footage. Over 5,000 sq ft? Each additional 1,000 sq ft adds $200.</p>
       </div>
 
       <!-- Card 3 -->
@@ -2867,19 +2867,19 @@
     }
   })();
 
-  /* ---- September promo banner: auto-expires after Sept 30, 2026; dismissal persists
+  /* ---- October promo banner: auto-expires after Oct 31, 2026; dismissal persists
      across every page on the site (localStorage), not just the current page/session ---- */
   (function () {
     var banner = document.getElementById('promoBanner');
     if (!banner) return;
 
-    /* Promo window. Months are 0-indexed: 7 = August, 8 = September, 9 = October.
+    /* Promo window. Months are 0-indexed: 9 = October, 10 = November.
        To run this promo again, just change these two dates. */
-    var PROMO_START = new Date(2026, 7, 31, 0, 0, 0);   /* Aug 31, 2026, 12:00 AM */
-    var PROMO_END   = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
+    var PROMO_START = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
+    var PROMO_END   = new Date(2026, 10, 1, 0, 0, 0);   /* Nov 1, 2026, 12:00 AM  */
     /* Bump this key (e.g. to "mdm_promo_dismissed_v2") to run a future promo again
        even for people who dismissed this one. */
-    var DISMISS_KEY = 'mdm_promo_dismissed_sept2026';
+    var DISMISS_KEY = 'mdm_promo_dismissed_oct2026';
 
     var now = new Date();
     if (now < PROMO_START || now >= PROMO_END) {
@@ -3197,11 +3197,11 @@
 (function(){
   var PROMO = {
     active: true,
-    label: "September Special",
-    start: "2026-09-01",
-    end:   "2026-09-30T23:59:59",
-    tier1: { now: 995,  was: 1450 },
-    tier2: { now: 1295, was: 1750 }
+    label: "October Special",
+    start: "2026-10-01T00:00:00",
+    end:   "2026-10-31T23:59:59",
+    tier1: { now: 1095, was: 1450 },
+    tier2: { now: 1395, was: 1750 }
   };
 
   function promoIsLive(){
