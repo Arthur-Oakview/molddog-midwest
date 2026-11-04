@@ -1283,7 +1283,8 @@
   }
 
   /* ---- SAMPLE REPORT STRIP ---- */
-  .report-peek { margin-top: 60px; padding-top: 52px; border-top: 1px solid rgba(139,111,78,0.25); }
+  .report-band { background: var(--bone); padding: 72px 0; }
+  @media (max-width: 760px) { .report-band { padding: 48px 0; } }
   .report-peek .includes-eyebrow { }
   .report-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 26px; }
   @media (max-width: 760px) { .report-shots { grid-template-columns: 1fr; } }
@@ -1371,6 +1372,48 @@
   }
   .fine-print strong { color: var(--ink); font-weight: 600; }
   .fine-print .fp-row { padding: 6px 0; }
+
+
+  /* Report peek heading (previously inherited from the removed .includes block) */
+  .report-peek .includes-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px; }
+  .report-peek h3 { font-size: 28px; margin-bottom: 16px; }
+
+
+  /* ===================== SPLIT-TRAVEL CALLOUT ===================== */
+  .split-travel { background: var(--bone-deep); padding: 44px 0; }
+  .split-inner {
+    display: flex; align-items: center; gap: 28px;
+    background: var(--bone); border-left: 3px solid var(--brick);
+    border-radius: 8px; padding: 28px 32px;
+    box-shadow: 0 4px 18px rgba(42,42,40,0.06);
+  }
+  .split-icon {
+    flex: 0 0 auto; width: 56px; height: 56px; border-radius: 50%;
+    background: var(--brick); color: var(--bone);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .split-icon svg { width: 28px; height: 28px; }
+  .split-text { flex: 1; min-width: 0; }
+  .split-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brick); margin-bottom: 6px; }
+  .split-text h3 { font-size: 24px; margin-bottom: 6px; color: var(--ink); }
+  .split-text p { font-size: 15.5px; line-height: 1.6; color: var(--walnut); margin: 0; }
+  .split-phone {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-size: 15px; font-weight: 600; color: var(--brick); white-space: nowrap;
+  }
+  .split-trip { flex: 0 0 280px; display: block; text-decoration: none; color: inherit; }
+  .split-trip:hover { text-decoration: none; }
+  .split-trip h3 { font-size: 24px; }
+  .split-phone svg { width: 17px; height: 17px; }
+  .split-phone:hover { color: var(--brick-dark); }
+  @media (max-width: 760px) {
+    .split-travel { padding: 32px 0; }
+    .split-inner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px 22px; }
+    .split-icon { width: 46px; height: 46px; }
+    .split-icon svg { width: 24px; height: 24px; }
+    .split-text h3 { font-size: 21px; }
+    .split-trip { flex-basis: auto; width: 100%; }
+  }
 
   /* ---------- UPCOMING TRIPS ---------- */
   .trips {
@@ -1791,8 +1834,6 @@
     /* ---- PRICING: show summary + first tier, hide rest until expanded ---- */
     .price-tiers .tier.m-hide { display: none; }
     .pricing.m-open .price-tiers .tier.m-hide { display: block; }
-    .pricing .fine-print.m-hide { display: none; }
-    .pricing.m-open .fine-print.m-hide { display: block; }
 
     /* ---- TRIPS: show first 3 cards, hide rest until expanded ---- */
     .trip-grid .trip-card.m-hide { display: none; }
@@ -2068,10 +2109,10 @@
 
 <div class="site-header" id="siteHeader">
 
-<!-- OCTOBER PROMO BANNER (auto-expires — see promo script at end of file) -->
-<div class="promo-banner" id="promoBanner" role="region" aria-label="October promotion" hidden>
+<!-- NOVEMBER PROMO BANNER (auto-expires — see promo script at end of file) -->
+<div class="promo-banner" id="promoBanner" role="region" aria-label="November promotion" hidden>
   <div class="promo-inner">
-    <span><strong>October Special:</strong> Book your inspection this month for <span class="promo-price">$1,095</span> &mdash; homes up to 3,500 sq ft.</span>
+    <span><strong>November Special:</strong> Book your inspection this month for <span class="promo-price">$1,295</span> &mdash; homes up to 3,500 sq ft.</span>
     <a href="#request" data-open-form="book" data-cta-source="promo-banner" class="promo-cta">Book Now &rarr;</a>
   </div>
   <button class="promo-close" type="button" id="promoClose" aria-label="Dismiss announcement">&times;</button>
@@ -2463,7 +2504,9 @@
           <li>6 lab samples included – air, swab, and tape-lift</li>
           <li>Interior visual inspection – moisture meter, hygrometer, attic &amp; crawlspace</li>
           <li>Exterior inspection – gutters, grading, and drainage</li>
-          <li>50 miles of travel included, $1/mi beyond that</li>
+          <li>50 round-trip miles included, $1.50/mi RT beyond that. Trips over 200 miles one way from Minneapolis add a $150 overnight lodging fee</li>
+          <li>Written report delivered within 5&ndash;7 days of the inspection (<a href="#sample-report">see sample below</a>)</li>
+          <li>15-minute phone consult to discuss report interpretation and advisement</li>
         </ul>
       </div>
 
@@ -2481,7 +2524,9 @@
           <li>6 lab samples included – air, swab, and tape-lift</li>
           <li>Interior visual inspection – moisture meter, hygrometer, attic &amp; crawlspace</li>
           <li>Exterior inspection – gutters, grading, and drainage</li>
-          <li>50 miles of travel included, $1/mi beyond that</li>
+          <li>50 round-trip miles included, $1.50/mi RT beyond that. Trips over 200 miles one way from Minneapolis add a $150 overnight lodging fee</li>
+          <li>Written report delivered within 5&ndash;7 days of the inspection (<a href="#sample-report">see sample below</a>)</li>
+          <li>15-minute phone consult to discuss report interpretation and advisement</li>
         </ul>
         <p class="same-services-note">The same complete inspection, scaled to your square footage. Over 5,000 sq ft? Each additional 1,000 sq ft adds $200.</p>
       </div>
@@ -2510,47 +2555,21 @@
       </a>
     </div>
 
-
-    <div class="m-expander">
-      <button class="m-expand-btn" type="button" data-expander="pricing" aria-expanded="false">
-        <span class="label">See full pricing</span><span class="chev">▼</span>
-      </button>
-    </div>
-
-    <div class="fine-print m-hide">
+    <div class="fine-print">
+      <div class="fp-row"><strong>Travel:</strong> The first 50 round-trip (RT) miles are included. Beyond that, mileage is billed at $1.50/mi RT. Properties more than 200 miles one way from Minneapolis also add a $150 overnight lodging fee. <em>Example &ndash; Madison, WI:</em> 270 miles one way = 540 miles RT. Minus the 50 included miles = 490 miles &times; $1.50 = $735, plus the $150 lodging fee = $885 in travel costs, added on top of your inspection price.</div>
+      <div class="fp-row"><strong>Multiple bookings in your same market?</strong> When multiple clients book in the same or nearby markets, travel fees are split between all clients.</div>
       <div class="fp-row"><strong>Booking:</strong> A 25% deposit holds your appointment; the remaining 75% is due at completion of the inspection.</div>
       <div class="fp-row"><strong>Detection only:</strong> remediation is not included. We find it and guide you – we don't do the remediation ourselves.</div>
       <div class="fp-row"><strong>Rescheduling:</strong> Reschedule free with at least 48 hours’ notice. Inside 48 hours, a fee may apply. Full booking, deposit, and cancellation terms are in our <a href="/Termsconditions">Terms &amp; Conditions</a>.</div>
     </div>
 
-    <div class="includes" style="margin-top:64px; margin-bottom:0; padding-top:52px; border-top:1px solid rgba(139,111,78,0.25);">
-      <div class="includes-eyebrow">What you get</div>
-      <h3>Every inspection includes</h3>
-      <ol class="journey">
-        <li class="journey-step">
-          <span class="journey-dot"></span>
-          <div class="journey-time">Inspection Day</div>
-        </li>
-        <li class="journey-step">
-          <span class="journey-dot"></span>
-          <div class="journey-time">Day 1-2 <span class="journey-sub">(Next 24-48 Hours)</span></div>
-          <ul class="journey-list">
-            <li>Written pre-final report delivered to customer - this is pre mold test results - including photos and points discussed from the verbal walkthrough.</li>
-          </ul>
-        </li>
-        <li class="journey-step">
-          <span class="journey-dot"></span>
-          <div class="journey-time">Day 5-7</div>
-          <ul class="journey-list">
-            <li>Final report with testing results and recommendation delivered.</li>
-            <li>15-min post assessment call to review results, answer questions, and provide next steps – we’re glad to walk your functional medicine or environmental health provider through the findings too.</li>
-          </ul>
-        </li>
-      </ol>
-    </div>
+  </div>
+</section>
 
-    <!-- ===================== SAMPLE REPORT PEEK ===================== -->
-    <div class="report-peek">
+<!-- ===================== SAMPLE REPORT PEEK (own band) ===================== -->
+<section class="report-band">
+  <div class="container">
+    <div class="report-peek" id="sample-report">
       <div class="includes-eyebrow">See before you buy</div>
       <h3>A look inside a real report</h3>
       <p class="report-note" style="font-style:normal;color:var(--ink);font-size:16px;max-width:70ch;">Pages from an actual client report, redacted. Every alert is photographed, located, tied to a moisture reading, and backed by a lab result &ndash; so you have something a remediator, a landlord, or your provider can act on.</p>
@@ -2629,6 +2648,34 @@
       </div>
     </div>
     <div class="reviews-cta"><a href="https://g.page/r/CdZcvWPoBCl1EAI" target="_blank" rel="noopener" class="btn-reviews"><svg viewBox="0 0 24 24"><path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#fff" opacity=".85" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#fff" opacity=".7" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#fff" opacity=".92" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1a11 11 0 0 0-9.82 6.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg> Read all reviews on Google</a></div>
+  </div>
+</section>
+
+<!-- SPLIT-TRAVEL CALLOUT -->
+<section class="split-travel">
+  <div class="container">
+    <div class="split-inner">
+      <div class="split-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2.5 20c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M13.6 15.3c.8-.2 1.6-.3 2.4-.3 2.7 0 4.9 1.8 5.5 5"/></svg>
+      </div>
+      <div class="split-text">
+        <div class="split-eyebrow">Save on travel</div>
+        <h3>Multiple bookings in your same market?</h3>
+        <p>When multiple clients book in the same or nearby markets, travel fees are split between all clients.</p>
+        <a href="tel:+16124601402" class="split-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2z"/></svg>
+        Ask about upcoming trips
+        </a>
+      </div>
+      <!-- Upcoming trip card: hides itself the day after data-expires -->
+      <a href="#request" class="trip-card split-trip" data-open-form="book" data-cta-source="trip-milwaukee" data-expires="2026-12-04">
+        <div class="trip-region">Upcoming trip</div>
+        <h3>Milwaukee</h3>
+        <div class="trip-state">Wisconsin &amp; surrounding area</div>
+        <div class="trip-dates">Dec 3&ndash;4, 2026</div>
+        <div class="trip-slots">Book now to split travel costs &rarr;</div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -2867,7 +2914,7 @@
     }
   })();
 
-  /* ---- October promo banner: auto-expires after Oct 31, 2026; dismissal persists
+  /* ---- November promo banner: auto-expires after Nov 30, 2026; dismissal persists
      across every page on the site (localStorage), not just the current page/session ---- */
   (function () {
     var banner = document.getElementById('promoBanner');
@@ -2875,11 +2922,11 @@
 
     /* Promo window. Months are 0-indexed: 9 = October, 10 = November.
        To run this promo again, just change these two dates. */
-    var PROMO_START = new Date(2026, 9, 1, 0, 0, 0);    /* Oct 1, 2026, 12:00 AM  */
-    var PROMO_END   = new Date(2026, 10, 1, 0, 0, 0);   /* Nov 1, 2026, 12:00 AM  */
+    var PROMO_START = new Date(2026, 10, 1, 0, 0, 0);   /* Nov 1, 2026, 12:00 AM  */
+    var PROMO_END   = new Date(2026, 11, 1, 0, 0, 0);   /* Dec 1, 2026, 12:00 AM  */
     /* Bump this key (e.g. to "mdm_promo_dismissed_v2") to run a future promo again
        even for people who dismissed this one. */
-    var DISMISS_KEY = 'mdm_promo_dismissed_oct2026';
+    var DISMISS_KEY = 'mdm_promo_dismissed_nov2026';
 
     var now = new Date();
     if (now < PROMO_START || now >= PROMO_END) {
@@ -3197,11 +3244,11 @@
 (function(){
   var PROMO = {
     active: true,
-    label: "October Special",
-    start: "2026-10-01T00:00:00",
-    end:   "2026-10-31T23:59:59",
-    tier1: { now: 1095, was: 1450 },
-    tier2: { now: 1395, was: 1750 }
+    label: "November Special",
+    start: "2026-11-01T00:00:00",
+    end:   "2026-11-30T23:59:59",
+    tier1: { now: 1295, was: 1450 },
+    tier2: { now: 1495, was: 1750 }
   };
 
   function promoIsLive(){
@@ -3294,5 +3341,16 @@
 })();
 </script>
 
+<script>
+/* Hide upcoming-trip cards once their trip has passed */
+(function(){
+  var today = new Date(); today.setHours(0,0,0,0);
+  document.querySelectorAll('[data-expires]').forEach(function(el){
+    var p = el.getAttribute('data-expires').split('-');
+    var end = new Date(+p[0], +p[1]-1, +p[2]);
+    if (today > end) el.parentNode.removeChild(el);
+  });
+})();
+</script>
 </body>
 </html>
